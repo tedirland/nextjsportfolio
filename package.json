@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node server/index.js",
     "build": "next build",
     "start": "next start"
   },
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/tedirland/nextjsportfolio#readme",
   "dependencies": {
     "bootstrap": "^4.4.1",
+    "express": "^4.17.1",
     "next": "^10.2.0",
     "node-sass": "^5.0.0",
     "react": "^17.0.2",
