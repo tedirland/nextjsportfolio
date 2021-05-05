@@ -3,7 +3,46 @@ import axios from 'axios';
 import PortfolioCard from '@/components/portfolios/PortfolioCard';
 import Link from 'next/link';
 
-const graphcreatePortfolio = () => {
+const graphDeletePortfolio = id => {
+  const query = `mutation DeletePortfolio {
+    deletePortfolio(id: "${id}")
+
+  }`;
+  return axios
+    .post('http://localhost:3000/graphql', { query })
+    .then(({ data: graph }) => graph.data)
+    .then(data => data.deletePortfolio);
+};
+
+const graphUpdatePortfolio = id => {
+  const query = `
+  mutation UpdatePortfolio {
+    updatePortfolio(id: "${id}", input: {
+      title: "Updated Job"
+      company: "Updated Company"
+      companyWebsite: "Updated Website"
+      location: "Updated location"
+      jobTitle: "Updated title"
+      description: "Updated Desc"
+      startDate: "1/1/2020"
+      endDate: "1/1/2021"
+    }) {
+      _id
+      title
+      description
+      company
+      companyWebsite
+      location
+      startDate
+      endDate
+    }
+  }`;
+  return axios
+    .post('http://localhost:3000/graphql', { query })
+    .then(({ data: graph }) => graph.data)
+    .then(data => data.updatePortfolio);
+};
+const graphCreatePortfolio = () => {
   const query = `
   mutation CreatePortfolio {
     createPortfolio(input: {
@@ -54,11 +93,28 @@ const fetchPortfolios = () => {
 };
 const Portfolios = ({ data }) => {
   const [portfolios, setPortfolios] = useState(data.portfolios);
+
   const createPortfolio = async () => {
-    const newPortfolio = await graphcreatePortfolio();
+    const newPortfolio = await graphCreatePortfolio();
     const newPortfolios = [...portfolios, newPortfolio];
     setPortfolios(newPortfolios);
   };
+
+  const updatePortfolio = async id => {
+    const updatedPortfolio = await graphUpdatePortfolio(id);
+    const index = portfolios.findIndex(p => p._id === id);
+    const newPortfolios = portfolios.slice();
+    newPortfolios[index] = updatedPortfolio;
+    setPortfolios(newPortfolios);
+  };
+  const deletePortfolio = async id => {
+    const deletedId = await graphUpdatePortfolio(id);
+    const index = portfolios.findIndex(p => p._id === deletedId);
+    const newPortfolios = portfolios.slice();
+    newPortfolios.splice(index, 1);
+    setPortfolios(newPortfolios);
+  };
+
   return (
     <>
       <section className="section-title">
@@ -80,6 +136,18 @@ const Portfolios = ({ data }) => {
                   <PortfolioCard portfolio={portfolio} />
                 </a>
               </Link>
+              <button
+                className="btn btn-warning"
+                onClick={() => updatePortfolio(portfolio._id)}
+              >
+                Upate Portfolio
+              </button>
+              <button
+                className="btn btn-danger ml-3"
+                onClick={() => deletePortfolio(portfolio._id)}
+              >
+                Delete Portfolio
+              </button>
             </div>
           ))}
         </div>
