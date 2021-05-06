@@ -1,38 +1,21 @@
 import PortfolioCard from '@/components/portfolios/PortfolioCard';
 import Link from 'next/link';
-import { useQuery, useMutation } from '@apollo/client';
-import { GET_PORTFOLIOS } from '../../apolloLogic/queries';
+
 import {
-  CREATE_PORTFOLIO,
-  UPDATE_PORTFOLIO,
-  DELETE_PORTFOLIO,
-} from '../../apolloLogic/mutations';
+  useGetPortfolios,
+  useCreatePortfolio,
+  useUpdatePortfolio,
+  useDeletePortfolio,
+} from '../../apolloLogic/actions';
 import withApollo from '../../hoc/withApollo';
 import { getDataFromTree } from '@apollo/react-ssr';
+import { GET_PORTFOLIO, GET_PORTFOLIOS } from '../../apolloLogic/queries';
 
 const Portfolios = ({ query }) => {
-  const { data } = useQuery(GET_PORTFOLIOS);
-  const [updatePortfolio] = useMutation(UPDATE_PORTFOLIO);
-  const [deletePortfolio] = useMutation(DELETE_PORTFOLIO, {
-    update(cache, { data: { deletePortfolio } }) {
-      const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS });
-      const newPortfolios = portfolios.filter(p => p._id !== deletePortfolio);
-      cache.writeQuery({
-        query: GET_PORTFOLIOS,
-        data: { portfolios: newPortfolios },
-      });
-    },
-  });
-
-  const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
-    update(cache, { data: { createPortfolio } }) {
-      const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS });
-      cache.writeQuery({
-        query: GET_PORTFOLIOS,
-        data: { portfolios: [...portfolios, createPortfolio] },
-      });
-    },
-  });
+  const { data } = useGetPortfolios();
+  const [updatePortfolio] = useUpdatePortfolio();
+  const [deletePortfolio] = useDeletePortfolio();
+  const [createPortfolio] = useCreatePortfolio();
 
   const portfolios = (data && data.portfolios) || [];
   return (
