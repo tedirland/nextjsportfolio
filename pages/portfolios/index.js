@@ -2,9 +2,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import PortfolioCard from '@/components/portfolios/PortfolioCard';
 import Link from 'next/link';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import { useEffect } from 'react';
 import { GET_PORTFOLIOS } from '../../apolloLogic/queries';
+import { CREATE_PORTFOLIO } from '../../apolloLogic/mutations';
 
 const graphDeletePortfolio = id => {
   const query = `mutation DeletePortfolio {
@@ -45,38 +46,11 @@ const graphUpdatePortfolio = id => {
     .then(({ data: graph }) => graph.data)
     .then(data => data.updatePortfolio);
 };
-const graphCreatePortfolio = () => {
-  const query = `
-  mutation CreatePortfolio {
-    createPortfolio(input: {
-      title: "New Job"
-      company: "New Company"
-      companyWebsite: "New Website"
-      location: "New location"
-      jobTitle: "New title"
-      description: "New Desc"
-      startDate: "1/1/2020"
-      endDate: "1/1/2021"
-    }) {
-      _id
-      title
-      description
-      company
-      companyWebsite
-      location
-      startDate
-      endDate
-    }
-  }`;
-  return axios
-    .post('http://localhost:3000/graphql', { query })
-    .then(({ data: graph }) => graph.data)
-    .then(data => data.createPortfolio);
-};
 
 const Portfolios = ({ query }) => {
   const [portfolios, setPortfolios] = useState([]);
   const [getPortfolios, { loading, data }] = useLazyQuery(GET_PORTFOLIOS);
+  const [createPortfolio, { data: createData }] = useMutation(CREATE_PORTFOLIO);
 
   useEffect(() => {
     getPortfolios();
@@ -88,12 +62,6 @@ const Portfolios = ({ query }) => {
   if (loading) {
     return 'loading...';
   }
-
-  const createPortfolio = async () => {
-    const newPortfolio = await graphCreatePortfolio();
-    const newPortfolios = [...portfolios, newPortfolio];
-    setPortfolios(newPortfolios);
-  };
 
   const updatePortfolio = async id => {
     const updatedPortfolio = await graphUpdatePortfolio(id);
