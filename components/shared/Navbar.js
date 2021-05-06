@@ -23,7 +23,7 @@ function AppNavbar() {
               Forum
             </AppLink>
             <AppLink href="/cv" className="nav-link mr-3">
-              Cv
+              Resume
             </AppLink>
           </Nav>
           <Nav>
