@@ -1,56 +1,29 @@
-import { useState } from 'react';
-import axios from 'axios';
 import PortfolioCard from '@/components/portfolios/PortfolioCard';
 import Link from 'next/link';
 import { useQuery, useMutation } from '@apollo/client';
-import { useEffect } from 'react';
 import { GET_PORTFOLIOS } from '../../apolloLogic/queries';
-import { CREATE_PORTFOLIO } from '../../apolloLogic/mutations';
+import {
+  CREATE_PORTFOLIO,
+  UPDATE_PORTFOLIO,
+  DELETE_PORTFOLIO,
+} from '../../apolloLogic/mutations';
 import withApollo from '../../hoc/withApollo';
 import { getDataFromTree } from '@apollo/react-ssr';
 
-const graphDeletePortfolio = id => {
-  const query = `mutation DeletePortfolio {
-    deletePortfolio(id: "${id}")
-
-  }`;
-  return axios
-    .post('http://localhost:3000/graphql', { query })
-    .then(({ data: graph }) => graph.data)
-    .then(data => data.deletePortfolio);
-};
-
-const graphUpdatePortfolio = id => {
-  const query = `
-  mutation UpdatePortfolio {
-    updatePortfolio(id: "${id}", input: {
-      title: "Updated Job"
-      company: "Updated Company"
-      companyWebsite: "Updated Website"
-      location: "Updated location"
-      jobTitle: "Updated title"
-      description: "Updated Desc"
-      startDate: "1/1/2020"
-      endDate: "1/1/2021"
-    }) {
-      _id
-      title
-      description
-      company
-      companyWebsite
-      location
-      startDate
-      endDate
-    }
-  }`;
-  return axios
-    .post('http://localhost:3000/graphql', { query })
-    .then(({ data: graph }) => graph.data)
-    .then(data => data.updatePortfolio);
-};
-
 const Portfolios = ({ query }) => {
   const { data } = useQuery(GET_PORTFOLIOS);
+  const [updatePortfolio] = useMutation(UPDATE_PORTFOLIO);
+  const [deletePortfolio] = useMutation(DELETE_PORTFOLIO, {
+    update(cache, { data: { deletePortfolio } }) {
+      const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS });
+      const newPortfolios = portfolios.filter(p => p._id !== deletePortfolio);
+      cache.writeQuery({
+        query: GET_PORTFOLIOS,
+        data: { portfolios: newPortfolios },
+      });
+    },
+  });
+
   const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
     update(cache, { data: { createPortfolio } }) {
       const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS });
@@ -61,12 +34,6 @@ const Portfolios = ({ query }) => {
     },
   });
 
-  const updatePortfolio = async id => {
-    await graphUpdatePortfolio(id);
-  };
-  const deletePortfolio = async id => {
-    const deletedId = await graphUpdatePortfolio(id);
-  };
   const portfolios = (data && data.portfolios) || [];
   return (
     <>
@@ -91,13 +58,17 @@ const Portfolios = ({ query }) => {
               </Link>
               <button
                 className="btn btn-warning"
-                onClick={() => updatePortfolio(portfolio._id)}
+                onClick={() =>
+                  updatePortfolio({ variables: { id: portfolio._id } })
+                }
               >
                 Upate Portfolio
               </button>
               <button
                 className="btn btn-danger ml-3"
-                onClick={() => deletePortfolio(portfolio._id)}
+                onClick={() =>
+                  deletePortfolio({ variables: { id: portfolio._id } })
+                }
               >
                 Delete Portfolio
               </button>
