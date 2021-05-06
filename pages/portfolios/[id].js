@@ -1,16 +1,23 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useLazyQuery } from '@apollo/client';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { GET_PORTFOLIO } from '../../apolloLogic/queries';
 
 const PortfolioDetail = ({ query }) => {
-  const { loading, error, data } = useQuery(GET_PORTFOLIO, {
-    variables: { id: query.id },
-  });
+  const [portfolio, setPortfolio] = useState(null);
+  const [getPortfolio, { loading, data }] = useLazyQuery(GET_PORTFOLIO);
 
-  if (loading) {
+  useEffect(() => {
+    getPortfolio({ variables: { id: query.id } });
+  }, []);
+
+  if (data && !portfolio) {
+    setPortfolio(data.portfolio);
+  }
+  if (loading || !portfolio) {
     return 'loading...';
   }
 
-  const portfolio = (data && data.portfolio) || {};
   return (
     <div className="portfolio-detail">
       <div className="container">
