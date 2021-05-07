@@ -1,3 +1,17 @@
+# custom files
+/server/config/dev.js
+
+#testing
+/coverage
+
+#next.js
+/.next/
+/out/
+
+#prod
+/build
+
+
 # Logs
 logs
 *.log

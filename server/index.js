@@ -14,6 +14,8 @@ const { portfolioQueries, portfolioMutations } = require('./graphql/resolvers');
 //types
 const { portfolioTypes } = require('./graphql/types');
 
+require('./db').connect();
+
 app.prepare().then(() => {
   const server = express();
 
@@ -22,7 +24,6 @@ app.prepare().then(() => {
     ${portfolioTypes}
 
     type Query {
-      hello: String
       portfolio(id: ID): Portfolio
       portfolios: [Portfolio]
     }

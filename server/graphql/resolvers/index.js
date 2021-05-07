@@ -37,9 +37,6 @@ const data = {
 };
 
 exports.portfolioQueries = {
-  hello: () => {
-    return 'Hello World!';
-  },
   portfolio: (root, { id }) => {
     const portfolio = data.portfolios.find(p => p._id === id);
     return portfolio;
