@@ -14,7 +14,7 @@ import { GET_PORTFOLIO, GET_PORTFOLIOS } from '../../apolloLogic/queries';
 const Portfolios = ({ query }) => {
   const { data } = useGetPortfolios();
   const [updatePortfolio] = useUpdatePortfolio();
-  const [deletePortfolio] = useDeletePortfolio();
+  const [deletePortfolio, { data: dataD }] = useDeletePortfolio();
   const [createPortfolio] = useCreatePortfolio();
 
   const portfolios = (data && data.portfolios) || [];

@@ -4,14 +4,14 @@ export const CREATE_PORTFOLIO = gql`
   mutation CreatePortfolio {
     createPortfolio(
       input: {
-        title: "New Job"
-        company: "New Company"
-        companyWebsite: "New Website"
-        location: "New location"
-        jobTitle: "New title"
-        description: "New Desc"
-        startDate: "1/1/2020"
-        endDate: "1/1/2021"
+        title: "Enterprise Account Manager"
+        company: "Wired, Inc."
+        companyWebsite: "www.hired.com"
+        location: "Chicago, IL (Remote)"
+        jobTitle: "Senior Account Manager"
+        description: "Manage full lifecycle of client relationships, including training, adoption, reporting, checkpoints and renewal"
+        startDate: "4/1/2019"
+        endDate: "4/16/2021"
       }
     ) {
       _id

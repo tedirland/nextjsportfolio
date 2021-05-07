@@ -13,6 +13,7 @@ const PortfolioDetail = ({ query }) => {
         <div className="jumbotron">
           <h1 className="display-3">{portfolio.title}</h1>
           <p className="lead">{portfolio.jobTitle}</p>
+          <p className="lead">{portfolio.company}</p>
           <p>
             <a
               className="btn btn-lg btn-success"
