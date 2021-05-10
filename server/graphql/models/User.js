@@ -9,13 +9,13 @@ class User {
     }
     return this.Model.create(signUpData);
   }
-  signIn(signInData, ctx) {
-    const isAuthenticated = ctx.authenticate(signInData);
-
-    if (isAuthenticated) {
-      console.log('User is authenticated');
+  async signIn(signInData, ctx) {
+    try {
+      const user = await ctx.authenticate(signInData);
+      return user;
+    } catch (error) {
+      return error;
     }
-    return `Sign in Output!`;
   }
 
   signOut() {
