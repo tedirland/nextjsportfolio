@@ -5,10 +5,14 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+const db = require('./db');
+db.connect();
+
 require('./db').connect();
 
 app.prepare().then(() => {
   const server = express();
+  require('./middleware').init(server, db);
 
   const apolloServer = require('./graphql').createApolloServer();
   apolloServer.applyMiddleware({ app: server });
