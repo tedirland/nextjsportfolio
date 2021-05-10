@@ -16,7 +16,7 @@ exports.connect = () => {
       useCreateIndex: true,
     },
     () => {
-      console.log('Connected to DB');
+      console.log('Connected To MongoDB');
     }
   );
 };

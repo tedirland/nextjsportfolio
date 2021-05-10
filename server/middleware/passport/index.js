@@ -1,7 +1,11 @@
 const GraphqlStrategy = require('./strategies');
 const User = require('../../db/models/user');
+const user = require('../../db/models/user');
 
 exports.init = passport => {
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
   passport.use(
     'graphql',
     new GraphqlStrategy(({ email, password }, done) => {

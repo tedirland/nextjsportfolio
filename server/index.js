@@ -8,8 +8,6 @@ const handle = app.getRequestHandler();
 const db = require('./db');
 db.connect();
 
-require('./db').connect();
-
 app.prepare().then(() => {
   const server = express();
   require('./middleware').init(server, db);
