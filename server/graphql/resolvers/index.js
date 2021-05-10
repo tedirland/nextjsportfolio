@@ -32,7 +32,7 @@ exports.userMutations = {
     return registeredUser._id;
   },
   signIn: (root, { input }, ctx) => {
-    return ctx.models.User.signIn(input);
+    return ctx.models.User.signIn(input, ctx);
   },
   signOut: (root, args, ctx) => {
     return ctx.models.User.signOut();

@@ -9,8 +9,13 @@ class User {
     }
     return this.Model.create(signUpData);
   }
-  signIn(signInData) {
-    return `signing In user: ${signInData.email} - ${signInData.password}`;
+  signIn(signInData, ctx) {
+    const isAuthenticated = ctx.authenticate(signInData);
+
+    if (isAuthenticated) {
+      console.log('User is authenticated');
+    }
+    return `Sign in Output!`;
   }
 
   signOut() {
