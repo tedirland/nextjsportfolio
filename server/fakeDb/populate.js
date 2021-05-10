@@ -8,6 +8,8 @@ mongoose.connect(
     useNewUrlParser: true,
 
     useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: true,
   },
   async () => {
     console.log('Adding data...');
