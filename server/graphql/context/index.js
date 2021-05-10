@@ -1,17 +1,16 @@
 const passport = require('passport');
 // options == {email, password}
 const authenticateUser = options => {
-  console.log('Calling authenticateUser');
-
   return new Promise((resolve, reject) => {
-    const done = (err, user) => {
-      //Here we will get user if is authenticated
-      //If user is present, save session to DB
-      if (err) {
+    const done = (error, user) => {
+      if (error) {
         return reject(new Error(err));
       }
+      //If user is present, save session to DB
       if (user) {
         return resolve(user);
+      } else {
+        return reject(new Error('invalid password or email'));
       }
     };
 
