@@ -28,6 +28,8 @@ exports.buildAuthContext = req => {
   const auth = {
     authenticate: options => authenticateUser(req, options),
     logout: () => req.logout(),
+    isAuthenticated: () => req.isAuthenticated(),
+    getUser: () => req.user,
   };
   return auth;
 };

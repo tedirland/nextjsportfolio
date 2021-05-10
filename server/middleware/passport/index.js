@@ -1,10 +1,15 @@
 const GraphqlStrategy = require('./strategies');
 const User = require('../../db/models/user');
-const user = require('../../db/models/user');
 
 exports.init = passport => {
   passport.serializeUser((user, done) => {
     done(null, user.id);
+  });
+
+  passport.deserializeUser((id, done) => {
+    User.findById(id, (error, user) => {
+      done(error, user);
+    });
   });
   passport.use(
     'graphql',
@@ -16,8 +21,7 @@ exports.init = passport => {
         if (!user) {
           return done(null, false);
         }
-        // //TODO: Verify user password
-        // return done(null, user);
+
         user.validatePassword(password, (error, isSuccess) => {
           if (error) {
             return done(error);
