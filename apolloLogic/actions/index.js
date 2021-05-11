@@ -4,6 +4,7 @@ import {
   UPDATE_PORTFOLIO,
   CREATE_PORTFOLIO,
   DELETE_PORTFOLIO,
+  SIGN_IN,
 } from '../mutations';
 
 export const useGetPortfolios = () => useQuery(GET_PORTFOLIOS);
@@ -31,3 +32,7 @@ export const useCreatePortfolio = () =>
       });
     },
   });
+
+//Auth Actions Start -----------------
+export const useSignIn = () => useMutation(SIGN_IN);
+//Auth Actions End -------------------
