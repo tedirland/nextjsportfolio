@@ -2,6 +2,12 @@ class User {
   constructor(model) {
     this.Model = model;
   }
+  getAuthUser(ctx) {
+    if (ctx.isAuthenticated()) {
+      return ctx.getUser();
+    }
+    return null;
+  }
 
   async signUp(signUpData) {
     if (signUpData.password !== signUpData.passwordConfirmation) {
