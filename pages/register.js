@@ -2,6 +2,7 @@ import RegisterForm from '../components/forms/RegisterForm';
 import { Mutation } from '@apollo/client/react/components';
 import { SIGN_UP } from '../apolloLogic/mutations';
 import withApollo from '../hoc/withApollo';
+import Redirect from '../components/shared/Redirect';
 
 const Register = () => {
   return (
@@ -18,6 +19,7 @@ const Register = () => {
                       signUpUser({ variables: registerData })
                     }
                   />
+                  {data && data.signUp && <Redirect to="/login" />}
                 </>
               )}
             </Mutation>
