@@ -3,11 +3,19 @@ class User {
     this.Model = model;
   }
 
-  signUp(signUpData) {
+  async signUp(signUpData) {
     if (signUpData.password !== signUpData.passwordConfirmation) {
       throw new Error('Password must be the same as confirmation password!');
     }
-    return this.Model.create(signUpData);
+    try {
+      return await this.Model.create(signUpData);
+    } catch (e) {
+      if (e.code && e.code === 11000) {
+        throw new Error('A user with this email already exists in our system.');
+      } else {
+        throw new Error(e.message);
+      }
+    }
   }
   async signIn(signInData, ctx) {
     try {
@@ -21,13 +29,7 @@ class User {
 
   signOut(ctx) {
     try {
-      // console.log('Before Logout');
-      // console.log(ctx.isAuthenticated());
-      // console.log('user', ctx.getUser());
       ctx.logout();
-      // console.log('After Logout');
-      // console.log(ctx.isAuthenticated());
-      // console.log('user', ctx.getUser());
       return true;
     } catch (e) {
       return false;
