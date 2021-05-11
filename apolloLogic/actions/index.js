@@ -34,6 +34,14 @@ export const useCreatePortfolio = () =>
   });
 
 //Auth Actions Start -----------------
-export const useSignIn = () => useMutation(SIGN_IN);
+export const useSignIn = () =>
+  useMutation(SIGN_IN, {
+    update(cache, { data: { signIn: signedInUser } }) {
+      cache.writeQuery({
+        query: GET_USER,
+        data: { user: signedInUser },
+      });
+    },
+  });
 export const useLazyGetUser = () => useLazyQuery(GET_USER);
 //Auth Actions End -------------------
