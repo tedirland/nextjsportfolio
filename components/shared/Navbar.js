@@ -21,10 +21,12 @@ function AppNavbar() {
   if (data) {
     if (data.user && !user) {
       setUser(data.user);
-      setHasResponse(true);
     }
 
-    if (!data.user && !hasResponse) {
+    if (!data.user && user) {
+      setUser(null);
+    }
+    if (!hasResponse) {
       setHasResponse(true);
     }
   }
@@ -54,7 +56,7 @@ function AppNavbar() {
                 <>
                   <span className="nav-link mr-4">Welcome {user.username}</span>
                   <AppLink
-                    href="/login"
+                    href="/logout"
                     className="mr-3 btn btn-danger nav-link"
                   >
                     Sign Out

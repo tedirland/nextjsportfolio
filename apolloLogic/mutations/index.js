@@ -90,5 +90,9 @@ export const SIGN_IN = gql`
     }
   }
 `;
-
+export const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut
+  }
+`;
 //AUTH MUTATIONS END

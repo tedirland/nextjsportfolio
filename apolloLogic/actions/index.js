@@ -5,6 +5,7 @@ import {
   CREATE_PORTFOLIO,
   DELETE_PORTFOLIO,
   SIGN_IN,
+  SIGN_OUT,
 } from '../mutations';
 
 export const useGetPortfolios = () => useQuery(GET_PORTFOLIOS);
@@ -43,5 +44,7 @@ export const useSignIn = () =>
       });
     },
   });
+
+export const useSignOut = () => useMutation(SIGN_OUT);
 export const useLazyGetUser = () => useLazyQuery(GET_USER);
 //Auth Actions End -------------------
