@@ -1,21 +1,15 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 function RegisterForm({ onSubmit }) {
-  const [form, setForm] = useState({});
+  const { register, handleSubmit } = useForm();
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
+  const handleChange = e => {};
   return (
-    <form onSubmit={() => onSubmit(form)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="form-group">
         <label htmlFor="avatar">Avatar</label>
         <input
-          onChange={handleChange}
+          {...register('avatar')}
           type="text"
           className="form-control"
           name="avatar"
@@ -25,7 +19,7 @@ function RegisterForm({ onSubmit }) {
       <div className="form-group">
         <label htmlFor="username">Username</label>
         <input
-          onChange={handleChange}
+          {...register('username')}
           type="text"
           className="form-control"
           name="username"
@@ -35,7 +29,7 @@ function RegisterForm({ onSubmit }) {
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input
-          onChange={handleChange}
+          {...register('email')}
           type="email"
           className="form-control"
           name="email"
@@ -45,7 +39,7 @@ function RegisterForm({ onSubmit }) {
       <div className="form-group">
         <label htmlFor="password">Password</label>
         <input
-          onChange={handleChange}
+          {...register('password')}
           type="password"
           className="form-control"
           name="password"
@@ -55,7 +49,7 @@ function RegisterForm({ onSubmit }) {
       <div className="form-group">
         <label htmlFor="passwordConfirmation">Password Confirmation</label>
         <input
-          onChange={handleChange}
+          {...register('passwordConfirmation')}
           type="password"
           className="form-control"
           name="passwordConfirmation"
