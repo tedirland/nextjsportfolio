@@ -7,7 +7,6 @@ import Redirect from '../components/shared/Redirect';
 const Register = () => {
   const errorMessage = error => {
     return (
-      //TODO: Handle DB Errors
       (error.graphQLErrors && error.graphQLErrors[0].message) ||
       'Oops, something went wrong'
     );

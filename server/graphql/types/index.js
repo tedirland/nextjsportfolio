@@ -38,7 +38,7 @@ type User {
 }
 
 input SignInInput {
-  email: String!,
+  email: String!
   password: String!
 }
 

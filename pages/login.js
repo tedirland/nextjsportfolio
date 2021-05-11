@@ -1,28 +1,24 @@
+import RegisterForm from '../components/forms/RegisterForm';
+import { Mutation } from '@apollo/client/react/components';
+import { SIGN_IN } from '../apolloLogic/mutations';
+import withApollo from '../hoc/withApollo';
+import Redirect from '../components/shared/Redirect';
+import LoginForm from '../components/forms/LoginForm';
 const Login = () => {
   return (
     <>
-      <section className="section-title">
-        <div className="px-2">
-          <div className="pt-5 pb-4"></div>
-        </div>
-      </section>
-      <div className="bwm-form">
+      <div className="bwm-form mt-5">
         <div className="row">
           <div className="col-md-5 mx-auto">
             <h1 className="page-title">Login</h1>
-            <form>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input type="email" className="form-control" id="email" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input type="password" className="form-control" id="password" />
-              </div>
-              <button type="submit" className="btn btn-main bg-blue py-2 ttu">
-                Submit
-              </button>
-            </form>
+            {/* <Mutation mutation={SIGN_IN}>
+              {(logInUser, {data,error}) => (
+
+              )} */}
+            <LoginForm
+              onSubmit={signInData => alert(JSON.stringify(signInData))}
+            />
+            {/* </Mutation> */}
           </div>
         </div>
       </div>
@@ -30,4 +26,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withApollo(Login);

@@ -80,5 +80,10 @@ export const SIGN_UP = gql`
     )
   }
 `;
+export const SIGN_IN = gql`
+  mutation ($email: String!, $password: String!) {
+    signIn(input: { email: $email, password: $password })
+  }
+`;
 
 //AUTH MUTATIONS END
