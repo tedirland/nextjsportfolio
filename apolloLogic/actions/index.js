@@ -1,5 +1,5 @@
-import { GET_PORTFOLIOS } from '../queries';
-import { useQuery, useMutation } from '@apollo/client';
+import { GET_PORTFOLIOS, GET_USER } from '../queries';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {
   UPDATE_PORTFOLIO,
   CREATE_PORTFOLIO,
@@ -35,4 +35,5 @@ export const useCreatePortfolio = () =>
 
 //Auth Actions Start -----------------
 export const useSignIn = () => useMutation(SIGN_IN);
+export const useLazyGetUser = () => useLazyQuery(GET_USER);
 //Auth Actions End -------------------

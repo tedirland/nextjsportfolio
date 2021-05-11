@@ -1,11 +1,29 @@
 import { Navbar, Nav } from 'react-bootstrap';
 import Link from 'next/link';
+import withApollo from '../../hoc/withApollo';
+import { useLazyGetUser } from '../../apolloLogic/actions';
+import { useEffect, useState } from 'react';
+
 const AppLink = ({ children, className, href }) => (
   <Link href={href}>
     <a className={className}>{children}</a>
   </Link>
 );
 function AppNavbar() {
+  const [user, setUser] = useState(null);
+  const [hasResponse, setHasResponse] = useState(false);
+  const [getUser, { data, error }] = useLazyGetUser();
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  if (data && !hasResponse) {
+    if (data.user && !user) {
+      setUser(data.user);
+    }
+    setHasResponse(true);
+  }
   return (
     <div className="navbar-wrapper">
       <Navbar expand="lg" className="navbar-dark fj-mw9">
@@ -26,21 +44,39 @@ function AppNavbar() {
               Resume
             </AppLink>
           </Nav>
-          <Nav>
-            <AppLink href="/register" className="nav-link mr-3">
-              Sign Up
-            </AppLink>
-            <AppLink
-              href="/login"
-              className="mr-3 btn btn-success bg-green-2 bright"
-            >
-              Sign In
-            </AppLink>
-          </Nav>
+          {hasResponse && (
+            <Nav>
+              {user && (
+                <>
+                  <span className="nav-link mr-4">Welcome {user.username}</span>
+                  <AppLink
+                    href="/login"
+                    className="mr-3 btn btn-danger nav-link"
+                  >
+                    Sign Out
+                  </AppLink>
+                </>
+              )}
+
+              {(error || !user) && (
+                <>
+                  <AppLink href="/register" className="nav-link mr-3">
+                    Sign Up
+                  </AppLink>
+                  <AppLink
+                    href="/login"
+                    className="mr-3 btn btn-success bg-green-2 bright"
+                  >
+                    Sign In
+                  </AppLink>
+                </>
+              )}
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     </div>
   );
 }
 
-export default AppNavbar;
+export default withApollo(AppNavbar);
