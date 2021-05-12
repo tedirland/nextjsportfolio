@@ -1,4 +1,4 @@
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import Link from 'next/link';
 import withApollo from '../../hoc/withApollo';
 import { useLazyGetUser } from '../../apolloLogic/actions';
@@ -54,7 +54,21 @@ function AppNavbar() {
             <Nav>
               {user && (
                 <>
-                  <span className="nav-link mr-4">Welcome {user.username}</span>
+                  <span className="nav-link mr-2">Welcome {user.username}</span>
+                  <NavDropdown
+                    className="mr-2"
+                    title="Manage"
+                    id="basic-nav-dropdown"
+                  >
+                    {(user.role === 'admin' || user.role === 'instructor') && (
+                      <AppLink
+                        href="/portfolios/new"
+                        className="mr-2 dropdown-item"
+                      >
+                        Create New Portfolio
+                      </AppLink>
+                    )}
+                  </NavDropdown>
                   <AppLink
                     href="/logout"
                     className="mr-3 btn btn-danger nav-link"

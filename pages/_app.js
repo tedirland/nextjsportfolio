@@ -7,6 +7,7 @@ import {
 } from '@apollo/client';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/index.scss';
 import Navbar from '@/components/shared/Navbar';
 import Hero from '@/components/shared/Hero';

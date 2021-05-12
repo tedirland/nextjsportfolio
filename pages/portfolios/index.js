@@ -26,9 +26,9 @@ const Portfolios = ({ query }) => {
             <h1>Portfolios</h1>
           </div>
         </div>
-        <button className="btn btn-primary" onClick={createPortfolio}>
+        <Link className="btn btn-primary" href="/portfolios/new">
           Create Portfolio
-        </button>
+        </Link>
       </section>
       <section className="pb-5">
         <div className="row">
