@@ -3,6 +3,7 @@ import withAuth from '../../hoc/withAuth';
 import PortfolioForm from '../../components/forms/PortfolioForm';
 import { useCreatePortfolio } from '../../apolloLogic/actions';
 import { useRouter } from 'next/router';
+import BaseLayout from '@/layouts/BaseLayout';
 
 const PortfolioCreate = () => {
   const [createPortfolio, { error }] = useCreatePortfolio();
@@ -20,7 +21,7 @@ const PortfolioCreate = () => {
     router.push('/portfolios');
   };
   return (
-    <>
+    <BaseLayout>
       <div className="bwm-form mt-5">
         <div className="row">
           <div className="col-md-5 mx-auto">
@@ -32,7 +33,7 @@ const PortfolioCreate = () => {
           </div>
         </div>
       </div>
-    </>
+    </BaseLayout>
   );
 };
 
