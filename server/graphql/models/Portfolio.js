@@ -8,7 +8,7 @@ class Portfolio {
   }
 
   getById(id) {
-    return this.ModelfindById(id);
+    return this.Model.findById(id);
   }
 
   create(data) {

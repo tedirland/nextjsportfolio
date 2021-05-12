@@ -24,7 +24,7 @@ const Portfolios = ({ query }) => {
         <div className="row">
           {portfolios.map(portfolio => (
             <div key={portfolio._id} className="col-md-4">
-              <Link href="/portfolios/[id" as={`/portfolios/${portfolio._id}`}>
+              <Link href="/portfolios/[id]" as={`/portfolios/${portfolio._id}`}>
                 <a className="card-link">
                   <PortfolioCard portfolio={portfolio} />
                 </a>
