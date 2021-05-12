@@ -1,21 +1,13 @@
 import PortfolioCard from '@/components/portfolios/PortfolioCard';
 import Link from 'next/link';
 
-import {
-  useGetPortfolios,
-  useCreatePortfolio,
-  useUpdatePortfolio,
-  useDeletePortfolio,
-} from '../../apolloLogic/actions';
+import { useGetPortfolios } from '../../apolloLogic/actions';
 import withApollo from '../../hoc/withApollo';
 import { getDataFromTree } from '@apollo/react-ssr';
 import { GET_PORTFOLIO, GET_PORTFOLIOS } from '../../apolloLogic/queries';
 
 const Portfolios = ({ query }) => {
   const { data } = useGetPortfolios();
-  const [updatePortfolio] = useUpdatePortfolio();
-  const [deletePortfolio, { data: dataD }] = useDeletePortfolio();
-  const [createPortfolio] = useCreatePortfolio();
 
   const portfolios = (data && data.portfolios) || [];
   return (
@@ -26,9 +18,6 @@ const Portfolios = ({ query }) => {
             <h1>Portfolios</h1>
           </div>
         </div>
-        <Link className="btn btn-primary" href="/portfolios/new">
-          Create Portfolio
-        </Link>
       </section>
       <section className="pb-5">
         <div className="row">
@@ -39,22 +28,6 @@ const Portfolios = ({ query }) => {
                   <PortfolioCard portfolio={portfolio} />
                 </a>
               </Link>
-              <button
-                className="btn btn-warning"
-                onClick={() =>
-                  updatePortfolio({ variables: { id: portfolio._id } })
-                }
-              >
-                Upate Portfolio
-              </button>
-              <button
-                className="btn btn-danger ml-3"
-                onClick={() =>
-                  deletePortfolio({ variables: { id: portfolio._id } })
-                }
-              >
-                Delete Portfolio
-              </button>
             </div>
           ))}
         </div>

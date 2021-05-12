@@ -17,6 +17,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <div className="portfolio-app">
       <Navbar />
+
       {isHomePage() && <Hero />}
       <div className="container">
         <Component {...pageProps} />

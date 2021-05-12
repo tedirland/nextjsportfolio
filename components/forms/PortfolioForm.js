@@ -40,6 +40,16 @@ const PortfolioForm = ({ onSubmit }) => {
           id="company"
         />
       </div>
+      <div className="form-group">
+        <label htmlFor="city">Company Website</label>
+        <input
+          {...register('companyWebsite')}
+          name="companyWebsite"
+          type="text"
+          className="form-control"
+          id="companyWebsite"
+        />
+      </div>
 
       <div className="form-group">
         <label htmlFor="street">Location</label>
@@ -91,10 +101,31 @@ const PortfolioForm = ({ onSubmit }) => {
         <div>
           <DatePicker
             showYearDropdown
+            disabled={!endDate}
             selected={endDate}
             onChange={handleDateChange('endDate', setEndDate)}
           />
         </div>
+      </div>
+      <div className="form-group">
+        {endDate && (
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => handleDateChange('endDate', setEndDate(null))}
+          >
+            Remove End Date
+          </button>
+        )}
+        {!endDate && (
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={() => handleDateChange('endDate', setEndDate(new Date()))}
+          >
+            Set End Date
+          </button>
+        )}
       </div>
 
       <button type="submit" className="btn btn-primary">
