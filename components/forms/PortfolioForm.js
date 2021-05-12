@@ -1,9 +1,21 @@
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 
 const PortfolioForm = ({ onSubmit }) => {
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, setValue } = useForm();
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  useEffect(() => {
+    register('startDate');
+    register('endDate');
+  }, [register]);
+
+  const handleDateChange = (dateType, setDate) => date => {
+    setValue(dateType, date);
+    setDate(date);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,8 +80,8 @@ const PortfolioForm = ({ onSubmit }) => {
         <div>
           <DatePicker
             showYearDropdown
-            selected={new Date()}
-            onChange={() => {}}
+            selected={startDate}
+            onChange={handleDateChange('startDate', setStartDate)}
           />
         </div>
       </div>
@@ -79,18 +91,15 @@ const PortfolioForm = ({ onSubmit }) => {
         <div>
           <DatePicker
             showYearDropdown
-            selected={new Date()}
-            onChange={() => {}}
+            selected={endDate}
+            onChange={handleDateChange('endDate', setEndDate)}
           />
         </div>
       </div>
 
-      <button type="submit" className="btn btn-primary mr-4">
+      <button type="submit" className="btn btn-primary">
         Create
       </button>
-      <Link href="/portfolios" className="btn btn-danger nav-link">
-        Cancel
-      </Link>
     </form>
   );
 };
