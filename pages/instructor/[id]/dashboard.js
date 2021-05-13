@@ -3,27 +3,33 @@ import withAuth from '../../../hoc/withAuth';
 import { useRouter } from 'next/router';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Card, Button } from 'react-bootstrap';
+import { useGetUserPortfolios } from '../../../apolloLogic/actions';
+import { getDataFromTree } from '@apollo/react-ssr';
 
 const InstructorDashBoard = () => {
+  const { data } = useGetUserPortfolios();
+  const userPortfolios = (data && data.userPortfolios) || [];
+  debugger;
   const router = useRouter();
-  const instructorId = router.query.id || '';
 
   return (
     <BaseLayout>
       <div className="bwm-form mt-5">
         <div className="row">
           <div className="col-md-12">
-            <h1 className="page-title">
-              Instructor Portfolios - {instructorId}
-            </h1>
-            <Card>
-              <Card.Header>Featured</Card.Header>
-              <Card.Body>
-                <Card.Title>Some Title</Card.Title>
-                <Card.Text>Lorem ipsum lorem ipsum..........</Card.Text>
-                <Button variant="primary">Go Somewhere</Button>
-              </Card.Body>
-            </Card>
+            <h1 className="page-title">Instructor Portfolios</h1>
+            {userPortfolios.map(p => (
+              <Card key={p._id}>
+                <Card.Header>{p.jobTitle}</Card.Header>
+                <Card.Body>
+                  <Card.Title>{p.title}</Card.Title>
+                  <Card.Text>
+                    {p.startDate} - {p.endDate}
+                  </Card.Text>
+                  <Button variant="primary">Go Somewhere</Button>
+                </Card.Body>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
@@ -32,5 +38,6 @@ const InstructorDashBoard = () => {
 };
 
 export default withApollo(
-  withAuth(InstructorDashBoard, ['admin', 'instructor'])
+  withAuth(InstructorDashBoard, ['admin', 'instructor']),
+  { getDataFromTree }
 );
