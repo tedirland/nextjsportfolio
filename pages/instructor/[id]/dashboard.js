@@ -9,6 +9,7 @@ import {
 } from '../../../apolloLogic/actions';
 import { getDataFromTree } from '@apollo/react-ssr';
 import Link from 'next/link';
+import { formatDate } from '@/utils/functions';
 
 const InstructorDashBoard = () => {
   const { data } = useGetUserPortfolios();
@@ -28,7 +29,8 @@ const InstructorDashBoard = () => {
                 <Card.Body>
                   <Card.Title>{p.title}</Card.Title>
                   <Card.Text>
-                    {p.startDate} - {p.endDate}
+                    {formatDate(p.startDate)} -
+                    {(p.endDate && formatDate(p.endDate)) || 'Present'}
                   </Card.Text>
                   <Link
                     href="/portfolios/[id]/edit"
