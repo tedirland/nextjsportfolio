@@ -3,14 +3,17 @@ import withAuth from '../../../hoc/withAuth';
 import { useRouter } from 'next/router';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Card, Button } from 'react-bootstrap';
-import { useGetUserPortfolios } from '../../../apolloLogic/actions';
+import {
+  useDeletePortfolio,
+  useGetUserPortfolios,
+} from '../../../apolloLogic/actions';
 import { getDataFromTree } from '@apollo/react-ssr';
 import Link from 'next/link';
 
 const InstructorDashBoard = () => {
   const { data } = useGetUserPortfolios();
+  const [deletePortfolio] = useDeletePortfolio();
   const userPortfolios = (data && data.userPortfolios) || [];
-  debugger;
   const router = useRouter();
 
   return (
@@ -33,7 +36,12 @@ const InstructorDashBoard = () => {
                   >
                     <a className="btn btn-warning mr-1"> Update</a>
                   </Link>
-                  <Button onClick={() => alert('Deleting!')} variant="danger">
+                  <Button
+                    onClick={() =>
+                      deletePortfolio({ variables: { id: p._id } })
+                    }
+                    variant="danger"
+                  >
                     Delete
                   </Button>
                 </Card.Body>
