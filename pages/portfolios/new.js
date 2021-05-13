@@ -10,10 +10,10 @@ const PortfolioCreate = () => {
   const router = useRouter();
 
   const errorMessage = error => {
-    return (
-      (error.graphQLErrors && error.graphQLErrors[0].message) ||
-      'Oops, something went wrong'
-    );
+    if (error) {
+      return error.graphQLErrors[0]?.message || 'Oops, something went wrong';
+    }
+    return null;
   };
 
   const handleCreatePortfolio = async data => {

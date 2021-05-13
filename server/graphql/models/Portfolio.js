@@ -1,6 +1,7 @@
 class Portfolio {
-  constructor(model) {
+  constructor(model, user) {
     this.Model = model;
+    this.user = user;
   }
 
   getAll() {
@@ -12,6 +13,7 @@ class Portfolio {
   }
 
   create(data) {
+    data.user = this.user;
     return this.Model.create(data);
   }
 
