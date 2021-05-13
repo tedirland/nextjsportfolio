@@ -7,6 +7,9 @@ class Portfolio {
   getAll() {
     return this.Model.find({});
   }
+  getAllByUser() {
+    return this.Model.find({ user: this.user._id }).sort({ startDate: 'desc' });
+  }
 
   getById(id) {
     return this.Model.findById(id);

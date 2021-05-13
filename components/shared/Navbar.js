@@ -4,8 +4,8 @@ import withApollo from '../../hoc/withApollo';
 import { useLazyGetUser } from '../../apolloLogic/actions';
 import { useEffect, useState } from 'react';
 
-const AppLink = ({ children, className, href }) => (
-  <Link href={href}>
+const AppLink = ({ children, className, href, as }) => (
+  <Link href={href} as={as}>
     <a className={className}>{children}</a>
   </Link>
 );
@@ -61,12 +61,21 @@ function AppNavbar() {
                     id="basic-nav-dropdown"
                   >
                     {(user.role === 'admin' || user.role === 'instructor') && (
-                      <AppLink
-                        href="/portfolios/new"
-                        className="mr-2 dropdown-item"
-                      >
-                        Create New Portfolio
-                      </AppLink>
+                      <>
+                        <AppLink
+                          href="/portfolios/new"
+                          className="mr-2 dropdown-item"
+                        >
+                          Create New Portfolio
+                        </AppLink>
+                        <AppLink
+                          href="/instructor/[id]/dashboard"
+                          as={`/instructor/${user._id}/dashboard`}
+                          className="mr-2 dropdown-item"
+                        >
+                          Instructor Dashboard
+                        </AppLink>
+                      </>
                     )}
                   </NavDropdown>
                   <AppLink
