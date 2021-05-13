@@ -7,6 +7,7 @@ import {
   useGetPortfolio,
   useUpdatePortfolio,
 } from '../../../apolloLogic/actions';
+import { toast } from 'react-toastify';
 
 const PortfolioEdit = () => {
   const router = useRouter();
@@ -20,6 +21,10 @@ const PortfolioEdit = () => {
       'Oops, something went wrong'
     );
   };
+  const handlePortfolioUpdate = async data => {
+    await updatePortfolio({ variables: { id, ...data } });
+    toast.success('Portfolio has been updated!', { autoClose: 2000 });
+  };
   return (
     <BaseLayout>
       <div className="bwm-form mt-5">
@@ -29,9 +34,7 @@ const PortfolioEdit = () => {
             {data && (
               <PortfolioForm
                 initialData={data.portfolio}
-                onSubmit={data =>
-                  updatePortfolio({ variables: { id, ...data } })
-                }
+                onSubmit={handlePortfolioUpdate}
               />
             )}
             {error && (
