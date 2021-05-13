@@ -1,4 +1,9 @@
-import { GET_PORTFOLIOS, GET_USER_PORTFOLIOS, GET_USER } from '../queries';
+import {
+  GET_PORTFOLIOS,
+  GET_USER_PORTFOLIOS,
+  GET_USER,
+  GET_PORTFOLIO,
+} from '../queries';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {
   UPDATE_PORTFOLIO,
@@ -9,6 +14,7 @@ import {
 } from '../mutations';
 
 export const useGetPortfolios = () => useQuery(GET_PORTFOLIOS);
+export const useGetPortfolio = options => useQuery(GET_PORTFOLIO, options);
 
 export const useGetUserPortfolios = () => useQuery(GET_USER_PORTFOLIOS);
 

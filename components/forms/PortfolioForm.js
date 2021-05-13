@@ -2,8 +2,10 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 
-const PortfolioForm = ({ onSubmit }) => {
-  const { handleSubmit, register, setValue } = useForm();
+const PortfolioForm = ({ onSubmit, initialData = {} }) => {
+  const { handleSubmit, register, setValue } = useForm({
+    defaultValues: initialData,
+  });
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -11,6 +13,16 @@ const PortfolioForm = ({ onSubmit }) => {
     register('startDate');
     register('endDate');
   }, [register]);
+
+  useEffect(() => {
+    const { startDate, endDate } = initialData;
+    if (initialData.startDate) {
+      setStartDate(new Date(parseInt(startDate, 10)));
+    }
+    if (initialData.endDate) {
+      setEndDate(new Date(parseInt(endDate, 10)));
+    }
+  }, [initialData]);
 
   const handleDateChange = (dateType, setDate) => date => {
     setValue(dateType, date);
