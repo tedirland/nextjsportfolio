@@ -3,9 +3,13 @@ import withApollo from '../hoc/withApollo';
 import Redirect from '../components/shared/Redirect';
 import LoginForm from '../components/forms/LoginForm';
 import BaseLayout from '@/layouts/BaseLayout';
+import { useRouter } from 'next/router';
+import messages from '@/variables/messages';
 
 const Login = () => {
   const [signIn, { data, loading, error }] = useSignIn();
+  const router = useRouter();
+  const { message } = router.query;
   const errorMessage = error => {
     return (
       (error.graphQLErrors && error.graphQLErrors[0].message) ||
@@ -18,7 +22,11 @@ const Login = () => {
         <div className="row">
           <div className="col-md-5 mx-auto">
             <h1 className="page-title">Login</h1>
-
+            {message && (
+              <div className={`alert alert-${messages[message].status}`}>
+                {messages[message].value}
+              </div>
+            )}
             <LoginForm
               loading={loading}
               onSubmit={signInData => signIn({ variables: signInData })}
