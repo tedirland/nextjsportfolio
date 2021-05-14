@@ -9,10 +9,10 @@ const PortfolioCreate = () => {
   const [createPortfolio, { error }] = useCreatePortfolio();
   const router = useRouter();
 
-  // const errorMessage = error => {
-  //   (error.graphQLErrors && error.graphQLErrors[0].message) ||
-  //     'Ooops, something went wrong';
-  // };
+  const errorMessage = error => {
+    (error.graphQLErrors && error.graphQLErrors[0]?.message) ||
+      'Ooops, something went wrong';
+  };
 
   const handleCreatePortfolio = async data => {
     await createPortfolio({ variables: data });
@@ -25,9 +25,9 @@ const PortfolioCreate = () => {
           <div className="col-md-5 mx-auto">
             <h1 className="page-title">Create New Portfolio</h1>
             <PortfolioForm onSubmit={handleCreatePortfolio} />
-            {/* {error && (
+            {error && (
               <div className="alert alert-danger">{errorMessage(error)} </div>
-            )} */}
+            )}
           </div>
         </div>
       </div>

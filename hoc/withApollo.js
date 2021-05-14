@@ -1,5 +1,6 @@
 import withApollo from 'next-with-apollo';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import moment from 'moment';
 
 export default withApollo(
   ({ initialState, headers }) => {
@@ -14,6 +15,19 @@ export default withApollo(
       },
       uri: 'http://localhost:3000/graphql',
       cache: new InMemoryCache().restore(initialState || {}),
+      resolvers: {
+        Portfolio: {
+          daysOfExperience({ startDate, endDate }, args, { cache }) {
+            let now = moment().unix();
+
+            if (endDate) {
+              now = endDate / 1000;
+            }
+
+            return moment.unix(now).diff(moment.unix(startDate / 1000), 'days');
+          },
+        },
+      },
     });
   },
   {

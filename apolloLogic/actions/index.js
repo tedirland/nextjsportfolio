@@ -39,10 +39,15 @@ export const useCreatePortfolio = () =>
   useMutation(CREATE_PORTFOLIO, {
     update(cache, { data: { createPortfolio } }) {
       const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS });
-      cache.writeQuery({
-        query: GET_PORTFOLIOS,
-        data: { portfolios: [...portfolios, createPortfolio] },
-      });
+      try {
+        const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS });
+        cache.writeQuery({
+          query: GET_PORTFOLIOS,
+          data: { portfolios: [...portfolios, createPortfolio] },
+        });
+      } catch {
+        //can error handling go in here?
+      }
     },
   });
 
