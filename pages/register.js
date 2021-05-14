@@ -26,7 +26,9 @@ const Register = () => {
                       signUpUser({ variables: registerData })
                     }
                   />
-                  {data && data.signUp && <Redirect to="/login" />}
+                  {data && data.signUp && (
+                    <Redirect to="/login" query={{ message: 'SIGNED_UP' }} />
+                  )}
                   {error && (
                     <div className="alert alert-danger">
                       {errorMessage(error)}
