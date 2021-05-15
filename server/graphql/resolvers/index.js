@@ -55,4 +55,8 @@ exports.forumQueries = {
   forumCategories: (root, args, ctx) => {
     return ctx.models.ForumCategory.getAll();
   },
+
+  topicsByCategory: (root, { category }, ctx) => {
+    return ctx.models.Topic.getAllByCategory(category);
+  },
 };
