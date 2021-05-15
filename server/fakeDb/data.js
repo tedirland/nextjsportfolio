@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const user1ID = mongoose.Types.ObjectId();
 const user2ID = mongoose.Types.ObjectId();
 
+const forum1ID = mongoose.Types.ObjectId();
+const forum2ID = mongoose.Types.ObjectId();
+const forum3ID = mongoose.Types.ObjectId();
+
 const data = {
   users: [
     {
@@ -61,6 +65,27 @@ const data = {
       startDate: '01/01/2010',
       endDate: '01/01/2011',
       user: user1ID,
+    },
+  ],
+
+  forumCategories: [
+    {
+      _id: forum1ID,
+      title: 'General Discussion',
+      subTitle: 'Open any topic you want',
+      slug: 'general-discussion',
+    },
+    {
+      _id: forum2ID,
+      title: 'Job Requests',
+      subTitle: 'Post here job opportunities',
+      slug: 'job-requests',
+    },
+    {
+      _id: forum3ID,
+      title: 'Developer Jokes',
+      subTitle: 'Just funny developing stuff',
+      slug: 'developer-jokes',
     },
   ],
 };
