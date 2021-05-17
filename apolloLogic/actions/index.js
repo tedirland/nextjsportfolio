@@ -4,6 +4,7 @@ import {
   GET_USER,
   GET_PORTFOLIO,
   GET_FORUM_CATEGORIES,
+  TOPICS_BY_CATEGORY,
 } from '../queries';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {
@@ -71,4 +72,7 @@ export const useGetUser = () => useQuery(GET_USER);
 //Forum Actions Start
 
 export const useGetForumCategories = () => useQuery(GET_FORUM_CATEGORIES);
+
+export const useGetTopicsByCategory = options =>
+  useQuery(TOPICS_BY_CATEGORY, options);
 //Forum Actions End
