@@ -53,3 +53,16 @@ export const GET_USER = gql`
     }
   }
 `;
+
+//FORUM QUERIES START----
+
+export const GET_FORUM_CATEGORIES = gql`
+  query ForumCategories {
+    forumCategories {
+      slug
+      title
+      subTitle
+    }
+  }
+`;
+//FORUM QUERIES END----

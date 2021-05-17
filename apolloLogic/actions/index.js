@@ -3,6 +3,7 @@ import {
   GET_USER_PORTFOLIOS,
   GET_USER,
   GET_PORTFOLIO,
+  GET_FORUM_CATEGORIES,
 } from '../queries';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {
@@ -66,3 +67,8 @@ export const useSignOut = () => useMutation(SIGN_OUT);
 export const useLazyGetUser = () => useLazyQuery(GET_USER);
 export const useGetUser = () => useQuery(GET_USER);
 //Auth Actions End -------------------
+
+//Forum Actions Start
+
+export const useGetForumCategories = () => useQuery(GET_FORUM_CATEGORIES);
+//Forum Actions End
