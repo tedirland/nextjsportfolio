@@ -69,4 +69,10 @@ exports.forumTypes = `
 
  }
 
+ input TopicInput {
+   title: String
+   content: String
+   forumCategory: String
+ }
+
  `;
