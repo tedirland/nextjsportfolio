@@ -115,3 +115,29 @@ export const SIGN_OUT = gql`
   }
 `;
 //AUTH MUTATIONS END
+
+export const CREATE_TOPIC = gql`
+  mutation CreateTopic(
+    $title: String
+    $content: String
+    $forumCategory: String
+  ) {
+    createTopic(
+      input: { title: $title, content: $content, forumCategory: $forumCategory }
+    ) {
+      _id
+      title
+      content
+      slug
+      user {
+        username
+        avatar
+      }
+      forumCategory {
+        _id
+        title
+        slug
+      }
+    }
+  }
+`;

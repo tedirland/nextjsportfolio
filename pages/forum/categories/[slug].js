@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout';
 import {
   useGetTopicsByCategory,
   useGetUser,
+  useCreateTopic,
 } from '../../../apolloLogic/actions';
 import { useRouter } from 'next/router';
 import withApollo from '../../../hoc/withApollo';
@@ -25,10 +26,14 @@ const useInitialData = () => {
 const Topics = () => {
   const [isReplierOpen, setIsReplierOpen] = useState(false);
   const { topicsByCategory, user, slug } = useInitialData();
+  const [createTopic] = useCreateTopic();
 
-  const createTopic = (topicData, done) => {
-    alert(JSON.stringify(topicData));
-    done();
+  const handleCreateTopic = (topicData, done) => {
+    topicData.forumCategory = slug;
+    createTopic({ variables: topicData }).then(() => {
+      setIsReplierOpen(false);
+      done();
+    });
   };
 
   return (
@@ -71,7 +76,7 @@ const Topics = () => {
       </section>
       <Replier
         isOpen={isReplierOpen}
-        onSubmit={createTopic}
+        onSubmit={handleCreateTopic}
         onClose={() => setIsReplierOpen(false)}
         closeBtn={() => (
           <a
