@@ -7,6 +7,7 @@ import {
   TOPICS_BY_CATEGORY,
   TOPICS_BY_SLUG,
   POSTS_BY_TOPIC,
+  CREATE_POST,
 } from '../queries';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {
@@ -99,4 +100,6 @@ export const useCreateTopic = () =>
   });
 
 export const useGetPostsByTopic = options => useQuery(POSTS_BY_TOPIC, options);
+
+export const useCreatePost = () => useMutation(CREATE_POST);
 //Forum Actions End

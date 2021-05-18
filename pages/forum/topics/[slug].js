@@ -1,15 +1,17 @@
 import BaseLayout from '@/layouts/BaseLayout';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   useGetTopicBySlug,
   useGetPostsByTopic,
   useGetUser,
+  useCreatePost,
 } from '../../../apolloLogic/actions';
 import { useRouter } from 'next/router';
 import withApollo from '@/hoc/withApollo';
 import { getDataFromTree } from '@apollo/react-ssr';
 import PostItem from '@/components/forum/PostItem';
 import Replier from '@/components/shared/Replier';
+import { toast } from 'react-toastify';
 
 const useInitialData = () => {
   const router = useRouter();
@@ -42,8 +44,26 @@ const PostPage = () => {
 };
 
 const Posts = ({ posts, topic, user }) => {
+  const pageEnd = useRef();
+  const [createPost, { error }] = useCreatePost();
   const [isReplierOpen, setIsReplierOpen] = useState(false);
   const [replyTo, setReplyTo] = useState(null);
+
+  const handleCreatePost = async (reply, resetReplier) => {
+    if (replyTo) {
+      reply.parent = replyTo._id;
+    }
+    reply.topic = topic._id;
+    await createPost({ variables: reply });
+    resetReplier();
+    setIsReplierOpen(false);
+    toast.success('Your post has been created!', { autoClose: 2000 });
+    scrollToEnd();
+  };
+
+  const scrollToEnd = () =>
+    pageEnd.current.scrollIntoView({ behavior: 'smooth' });
+
   return (
     <section className="mb-5">
       <div className="fj-post-list">
@@ -82,11 +102,12 @@ const Posts = ({ posts, topic, user }) => {
           </div>
         </div>
       </div>
+      <div ref={pageEnd}></div>
       <Replier
         isOpen={isReplierOpen}
         hasTitle={false}
         replyTo={(replyTo && replyTo.user.username) || topic.title}
-        onSubmit={() => {}}
+        onSubmit={handleCreatePost}
         onClose={() => setIsReplierOpen(false)}
         closeBtn={() => (
           <a
