@@ -27,7 +27,7 @@ const data = {
     {
       _id: user1ID,
       avatar:
-        'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
+        'https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png',
       email: 'irlandth@gmail.com',
       name: 'Ted Irland',
       username: 'tedirland',
@@ -38,7 +38,7 @@ const data = {
     {
       _id: user2ID,
       avatar:
-        'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
+        'https://static.wikia.nocookie.net/finalfantasy/images/1/1f/RedXIII-FFVIIArt.png/revision/latest/scale-to-width-down/404?cb=20110227161510',
       email: 'testy@gmail.com',
       name: 'Test Man',
       username: 'tester99',
