@@ -5,6 +5,7 @@ import {
   GET_PORTFOLIO,
   GET_FORUM_CATEGORIES,
   TOPICS_BY_CATEGORY,
+  TOPICS_BY_SLUG,
 } from '../queries';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {
@@ -76,6 +77,8 @@ export const useGetForumCategories = () => useQuery(GET_FORUM_CATEGORIES);
 
 export const useGetTopicsByCategory = options =>
   useQuery(TOPICS_BY_CATEGORY, options);
+
+export const useGetTopicBySlug = options => useQuery(TOPICS_BY_SLUG, options);
 
 export const useCreateTopic = () =>
   useMutation(CREATE_TOPIC, {

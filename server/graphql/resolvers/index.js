@@ -63,6 +63,10 @@ exports.forumQueries = {
     }
     return ctx.models.Topic.getAllByCategory(forumCategory._id);
   },
+
+  topicBySlug: (root, { slug }, ctx) => {
+    return ctx.models.Topic.getBySlug(slug);
+  },
 };
 
 exports.forumMutations = {
