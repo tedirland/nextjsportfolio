@@ -16,7 +16,8 @@ import AppPagination from '@/components/shared/AppPagination';
 
 const useInitialData = (slug, pagination) => {
   const { data: dataT } = useGetTopicBySlug({
-    variables: { slug },
+    variables: { slug, ...pagination },
+    fetchPolicy: 'cache-and-network',
   });
   const { data: dataP, fetchMore } = useGetPostsByTopic({
     variables: { slug, ...pagination },
