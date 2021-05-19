@@ -51,9 +51,9 @@ const PostPage = () => {
         fetchMore={fetchMore}
         {...rest}
         {...pagination}
-        onPageChange={(pageNum, pageSize) => {
-          setPagination(pageNum, pageSize);
-        }}
+        onPageChange={(pageNum, pageSize) =>
+          setPagination({ pageNum, pageSize })
+        }
       />
     </BaseLayout>
   );
