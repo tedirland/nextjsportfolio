@@ -14,9 +14,7 @@ import Replier from '@/components/shared/Replier';
 import { toast } from 'react-toastify';
 import AppPagination from '@/components/shared/AppPagination';
 
-const useInitialData = pagination => {
-  const router = useRouter();
-  const { slug } = router.query;
+const useInitialData = (slug, pagination) => {
   const { data: dataT } = useGetTopicBySlug({
     variables: { slug },
   });
@@ -32,8 +30,16 @@ const useInitialData = pagination => {
 };
 
 const PostPage = () => {
-  const [pagination, setPagination] = useState({ pageNum: 1, pageSize: 5 });
-  const { topic, posts, user, fetchMore, ...rest } = useInitialData(pagination);
+  const router = useRouter();
+  const { slug, pageNum = 1, pageSize = 5 } = router.query;
+  const [pagination, setPagination] = useState({
+    pageNum: parseInt(pageNum, 10),
+    pageSize: parseInt(pageSize, 10),
+  });
+  const { topic, posts, user, fetchMore, ...rest } = useInitialData(
+    slug,
+    pagination
+  );
 
   return (
     <BaseLayout>
@@ -51,9 +57,15 @@ const PostPage = () => {
         fetchMore={fetchMore}
         {...rest}
         {...pagination}
-        onPageChange={(pageNum, pageSize) =>
-          setPagination({ pageNum, pageSize })
-        }
+        onPageChange={(pageNum, pageSize) => {
+          router.push(
+            '/forum/topics/[slug]',
+            `/forum/topics/${slug}?pageNum=${pageNum}&pageSize=${pageSize}`,
+            { shallow: true }
+          );
+
+          setPagination({ pageNum, pageSize });
+        }}
       />
     </BaseLayout>
   );
@@ -94,7 +106,9 @@ const Posts = ({ posts, topic, user, fetchMore, ...pagination }) => {
   return (
     <section className="mb-5">
       <div className="fj-post-list">
-        {topic._id && <PostItem className="topic-post-lead" post={topic} />}
+        {topic._id && pagination.pageNum === 1 && (
+          <PostItem className="topic-post-lead" post={topic} />
+        )}
         {posts.map(post => (
           <div key={post._id} className="row">
             <div className="col-md-9">
