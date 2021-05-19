@@ -18,17 +18,19 @@ const useInitialData = () => {
   const router = useRouter();
   const { slug } = router.query;
   const { data: dataT } = useGetTopicBySlug({ variables: { slug } });
-  const { data: dataP } = useGetPostsByTopic({ variables: { slug } });
+  const { data: dataP, fetchMore } = useGetPostsByTopic({
+    variables: { slug },
+  });
   const { data: dataU } = useGetUser();
   const topic = (dataT && dataT.topicBySlug) || {};
   const posts = (dataP && dataP.postsByTopic) || [];
   const user = (dataU && dataU.user) || null;
 
-  return { topic, posts, user };
+  return { topic, posts, user, fetchMore };
 };
 
 const PostPage = () => {
-  const { topic, posts, user } = useInitialData();
+  const { topic, posts, user, fetchMore } = useInitialData();
 
   return (
     <BaseLayout>
@@ -39,12 +41,12 @@ const PostPage = () => {
           </div>
         </div>
       </section>
-      <Posts posts={posts} topic={topic} user={user} />
+      <Posts posts={posts} topic={topic} user={user} fetchMore={fetchMore} />
     </BaseLayout>
   );
 };
 
-const Posts = ({ posts, topic, user }) => {
+const Posts = ({ posts, topic, user, fetchMore }) => {
   const pageEnd = useRef();
   const [createPost, { error }] = useCreatePost();
   const [isReplierOpen, setIsReplierOpen] = useState(false);
@@ -56,7 +58,18 @@ const Posts = ({ posts, topic, user }) => {
     }
     reply.topic = topic._id;
     await createPost({ variables: reply });
+    await fetchMore({
+      updateQuery: (previousResults, { fetchMoreResult }) => {
+        return Object.assign({}, previousResults, {
+          postsByTopic: [...fetchMoreResult.postsByTopic],
+        });
+      },
+    });
     resetReplier();
+    cleanUp();
+  };
+
+  const cleanUp = () => {
     setIsReplierOpen(false);
     toast.success('Your post has been created!', { autoClose: 2000 });
     scrollToEnd();
