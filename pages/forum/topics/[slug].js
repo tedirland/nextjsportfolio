@@ -23,14 +23,14 @@ const useInitialData = () => {
   });
   const { data: dataU } = useGetUser();
   const topic = (dataT && dataT.topicBySlug) || {};
-  const posts = (dataP && dataP.postsByTopic) || [];
+  const postData = (dataP && dataP.postsByTopic) || { posts: [] };
   const user = (dataU && dataU.user) || null;
 
-  return { topic, posts, user, fetchMore };
+  return { topic, ...postData, user, fetchMore };
 };
 
 const PostPage = () => {
-  const { topic, posts, user, fetchMore } = useInitialData();
+  const { topic, posts, user, fetchMore, ...rest } = useInitialData();
 
   return (
     <BaseLayout>
@@ -41,12 +41,18 @@ const PostPage = () => {
           </div>
         </div>
       </section>
-      <Posts posts={posts} topic={topic} user={user} fetchMore={fetchMore} />
+      <Posts
+        posts={posts}
+        topic={topic}
+        user={user}
+        fetchMore={fetchMore}
+        {...rest}
+      />
     </BaseLayout>
   );
 };
 
-const Posts = ({ posts, topic, user, fetchMore }) => {
+const Posts = ({ posts, topic, user, fetchMore, count }) => {
   const pageEnd = useRef();
   const [createPost, { error }] = useCreatePost();
   const [isReplierOpen, setIsReplierOpen] = useState(false);
@@ -115,7 +121,7 @@ const Posts = ({ posts, topic, user, fetchMore }) => {
             )}
 
             <div className="pagination-container ml-auto">
-              <AppPagination />
+              <AppPagination count={count} />
             </div>
           </div>
         </div>
