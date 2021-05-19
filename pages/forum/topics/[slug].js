@@ -16,11 +16,11 @@ import AppPagination from '@/components/shared/AppPagination';
 
 const useInitialData = (slug, pagination) => {
   const { data: dataT } = useGetTopicBySlug({
-    variables: { slug, ...pagination },
-    fetchPolicy: 'cache-and-network',
+    variables: { slug },
   });
   const { data: dataP, fetchMore } = useGetPostsByTopic({
     variables: { slug, ...pagination },
+    fetchPolicy: 'cache-and-network',
   });
   const { data: dataU } = useGetUser();
   const topic = (dataT && dataT.topicBySlug) || {};
@@ -85,7 +85,10 @@ const Posts = ({ posts, topic, user, fetchMore, ...pagination }) => {
     }
     reply.topic = topic._id;
     await createPost({ variables: reply });
-    const lastPage = Math.ceil(count / pageSize);
+    let lastPage = Math.ceil(count / pageSize);
+    if (count === 0) {
+      lastPage = 1;
+    }
 
     lastPage === pageNum &&
       (await fetchMore({
