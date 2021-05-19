@@ -99,7 +99,12 @@ export const useCreateTopic = () =>
     },
   });
 
-export const useGetPostsByTopic = options => useQuery(POSTS_BY_TOPIC, options);
+// export const useGetPostsByTopic = options => useQuery(POSTS_BY_TOPIC, options);
 
+export const useGetPostsByTopic = (slug, pagination) =>
+  useQuery(POSTS_BY_TOPIC, {
+    fetchPolicy: 'network-only',
+    variables: { slug, ...pagination },
+  });
 export const useCreatePost = () => useMutation(CREATE_POST);
 //Forum Actions End
