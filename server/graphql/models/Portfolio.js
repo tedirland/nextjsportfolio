@@ -1,24 +1,15 @@
-class Portfolio {
+const BaseModel = require('./BaseModel');
+
+class Portfolio extends BaseModel {
   constructor(model, user) {
-    this.Model = model;
-    this.user = user;
+    super(model, user);
+    this.writeRights = ['instructor', 'admin'];
   }
 
-  async getRandoms(limit) {
-    const count = await this.Model.countDocuments();
-    let randomIndex;
-
-    if (limit > count) {
-      randomIndex = 0;
-    } else {
-      randomIndex = count - limit;
-    }
-    const random = Math.round(Math.random() * randomIndex);
-    return this.Model.find({}).skip(random).limit(limit);
-  }
   getAll() {
     return this.Model.find({});
   }
+
   getAllByUser() {
     return this.Model.find({ user: this.user._id }).sort({ startDate: 'desc' });
   }
@@ -28,6 +19,10 @@ class Portfolio {
   }
 
   create(data) {
+    if (!this.user || !this.writeRights.includes(this.user.role)) {
+      throw new Error('Not Authorised!!!');
+    }
+
     data.user = this.user;
     return this.Model.create(data);
   }

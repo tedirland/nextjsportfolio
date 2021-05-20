@@ -1,22 +1,11 @@
-var slugify = require('slugify');
-var uniqueSlug = require('unique-slug');
+const slugify = require('slugify');
+const uniqueSlug = require('unique-slug');
+const BaseModel = require('./BaseModel');
 
-class Topic {
-  constructor(model, user) {
-    this.Model = model;
-    this.user = user;
-  }
+class Topic extends BaseModel {
   async getRandoms(limit) {
-    const count = await this.Model.countDocuments();
-    let randomIndex;
-
-    if (limit > count) {
-      randomIndex = 0;
-    } else {
-      randomIndex = count - limit;
-    }
-    const random = Math.round(Math.random() * randomIndex);
-    return this.Model.find({}).skip(random).limit(limit).populate('user');
+    const query = await super.getRandoms(limit);
+    return query().populate('user');
   }
 
   getBySlug(slug) {
@@ -33,7 +22,6 @@ class Topic {
 
   async _create(data) {
     const createdTopic = await this.Model.create(data);
-
     return this.Model.findById(createdTopic._id)
       .populate('user')
       .populate('forumCategory');
@@ -41,16 +29,19 @@ class Topic {
 
   async create(topicData) {
     if (!this.user) {
-      throw new Error('Must be logged in to create a topic!');
+      throw new Error('You need to authenticate to create a topic!');
     }
 
     topicData.user = this.user;
+    // generateSlug
     topicData.slug = slugify(topicData.title, {
+      replacement: '-',
+      remove: undefined,
       lower: true,
+      strict: false,
     });
 
     let topic;
-
     try {
       topic = await this._create(topicData);
       return topic;
@@ -60,6 +51,7 @@ class Topic {
         topic = await this._create(topicData);
         return topic;
       }
+
       return null;
     }
   }
