@@ -8,6 +8,7 @@ import {
   TOPICS_BY_SLUG,
   POSTS_BY_TOPIC,
   CREATE_POST,
+  GET_HIGHLIGHT,
 } from '../queries';
 import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import {
@@ -18,6 +19,8 @@ import {
   SIGN_OUT,
   CREATE_TOPIC,
 } from '../mutations';
+
+export const useGetHighlight = options => useQuery(GET_HIGHLIGHT, options);
 
 export const useGetPortfolios = () => useQuery(GET_PORTFOLIOS);
 export const useGetPortfolio = options => useQuery(GET_PORTFOLIO, options);
@@ -103,4 +106,5 @@ export const useCreateTopic = () =>
 
 export const useGetPostsByTopic = options => useQuery(POSTS_BY_TOPIC, options);
 export const useCreatePost = () => useMutation(CREATE_POST);
+
 //Forum Actions End
