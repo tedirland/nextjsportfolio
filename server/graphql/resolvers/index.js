@@ -1,3 +1,14 @@
+exports.mixedQueries = {
+  highlight: async (root, { limit = 3 }, ctx) => {
+    const portfolios = ctx.models.Portfolio.getRandoms(limit);
+    const topics = ctx.models.Topic.getRandoms(limit);
+    return {
+      portfolios,
+      topics,
+    };
+  },
+};
+
 exports.portfolioQueries = {
   portfolio: (root, { id }, ctx) => {
     return ctx.models.Portfolio.getById(id);

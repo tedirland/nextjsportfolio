@@ -20,6 +20,7 @@ const useInitialData = (slug, pagination) => {
   });
   const { data: dataP, fetchMore } = useGetPostsByTopic({
     variables: { slug, ...pagination },
+    pollInterval: 10000,
     fetchPolicy: 'cache-and-network',
   });
   const { data: dataU } = useGetUser();
